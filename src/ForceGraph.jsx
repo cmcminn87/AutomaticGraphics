@@ -9,7 +9,7 @@ export default function ForceGraph({ data, width, height }) {
   const [selectedNode, setSelectedNode] = useState(null);
 
   useEffect(() => {
-    if (!data || !data.nodes?.length) return;
+    if (!data || !data.nodes?.length || width < 100 || height < 100) return;
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
