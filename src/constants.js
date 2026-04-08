@@ -1,0 +1,32 @@
+export const TYPE_COLORS = {
+  person: "#00d4ff",
+  organization: "#ff7043",
+  topic: "#ffd54f",
+  concept: "#ab47bc",
+  technology: "#66bb6a",
+  event: "#ef5350",
+  location: "#26c6da",
+  metric: "#ffa726",
+  action_item: "#ec407a",
+  reference: "#78909c",
+};
+
+export const REL_COLORS = {
+  discusses: "#ffffff30",
+  mentions: "#ffffff15",
+  works_at: "#00d4ff50",
+  collaborates_with: "#66bb6a50",
+  disagrees_with: "#ef535080",
+  agrees_with: "#66bb6a80",
+  depends_on: "#ffd54f50",
+  causes: "#ff704380",
+  implements: "#66bb6a50",
+  references: "#78909c50",
+  assigned_to: "#ec407a60",
+  related_to: "#ffffff20",
+  compares: "#ab47bc50",
+  part_of: "#ffd54f40",
+  leads: "#00d4ff60",
+  proposes: "#ab47bc60",
+  impacts: "#ffa72660",
+};
