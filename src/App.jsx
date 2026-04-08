@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ForceGraph from "./ForceGraph";
 import { TYPE_COLORS } from "./constants";
 import { sanitizeAndParse, loadFromUrl, generateShareLink, mergeGraphs } from "./utils";
@@ -42,8 +42,15 @@ export default function App() {
   const [error, setError] = useState(null);
   const [loadSource, setLoadSource] = useState(null);
   const [copied, setCopied] = useState(false);
-  const containerRef = useRef(null);
-  const [dims, setDims] = useState({ w: 900, h: 560 });
+  const [dims, setDims] = useState({ w: window.innerWidth - 40, h: window.innerHeight - 200 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDims({ w: window.innerWidth - 40, h: window.innerHeight - 200 });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const urlData = loadFromUrl();
@@ -65,17 +72,6 @@ export default function App() {
     };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
-  }, []);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries)
-        setDims({ w: entry.contentRect.width, h: Math.max(400, entry.contentRect.height) });
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
   }, []);
 
   const loadJson = useCallback(() => {
@@ -143,7 +139,7 @@ export default function App() {
         </div>
       )}
 
-      <div ref={containerRef} style={{ padding: "10px 20px 20px", height: noGraph && tab === "graph" ? "auto" : "calc(100vh - 140px)", minHeight: 300 }}>
+      <div style={{ padding: "10px 20px 20px", minHeight: 500 }}>
         {error && (
           <div style={{ background: "#2a1520", border: "1px solid #ef535060", padding: 12, borderRadius: 6, marginBottom: 12, fontSize: 13, color: "#ef9a9a" }}>
             {error}
@@ -165,7 +161,7 @@ export default function App() {
         )}
 
         {tab === "graph" && !noGraph && (
-          <ForceGraph data={graphData} width={dims.w} height={dims.h - 60} />
+          <ForceGraph data={graphData} width={dims.w} height={dims.h} />
         )}
 
         {tab === "import" && (
